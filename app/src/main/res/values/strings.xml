@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Image Scoped Storage</string>
+    <string name="title_activity_image_list">Image List</string>
+</resources>

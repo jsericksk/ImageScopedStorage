@@ -7,10 +7,10 @@ Este projeto visa o uso do armazenamento com escopo em imagens, utilizando as AP
 Uma pasta específica para as imagens geradas pelo app será criada em **Pictures/** com o nome **My App**. O app apenas converte um layout para Bitmap e posteriormente salva como uma imagem PNG em ***Pictures/My App***, mas a função de salvar imagem pode ser modificada para obter o Bitmap de outros casos, como uma imagem carregada da web, por exemplo.
 
 <p align="center">
-  <img src="screenshots/Screenshot_01.png" width="300" height="600" />
-  <img src="screenshots/Screenshot_02.png" width="300" height="600" />
-  <img src="screenshots/Screenshot_03.png" width="300" height="600" />
-  <img src="screenshots/Screenshot_04.png" width="300" height="600" />
+  <img src="screenshots/Screenshot_01.png" width="200" height="400" />
+  <img src="screenshots/Screenshot_02.png" width="200" height="400" />
+  </br><img src="screenshots/Screenshot_03.png" width="200" height="400" />
+  <img src="screenshots/Screenshot_04.png" width="200" height="400" />
 </p>
 
 

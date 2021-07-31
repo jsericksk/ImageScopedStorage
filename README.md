@@ -23,5 +23,5 @@ No Android 10 é preciso fazer um trabalho a mais para verificar se a imagem foi
 
 ## Utilizações:
 
-[Glide](https://github.com/bumptech/glide): para o carregamento de imagens.
+[Glide](https://github.com/bumptech/glide): para o carregamento de imagens.  
 [Coroutines](https://developer.android.com/kotlin/coroutines): para as operações de I/O fora da main thread.

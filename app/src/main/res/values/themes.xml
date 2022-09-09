@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.ImageScopedStorage" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">#690101</item>
+    </style>
+</resources>

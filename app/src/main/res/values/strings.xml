@@ -3,6 +3,11 @@
 
     <string name="saved_images">Saved Images</string>
 
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="error">Error</string>
+
     <string name="empty_image_list">The image list is empty. Saved images will appear here.</string>
     <string name="error_get_image_list">There was an error trying to get the image list.</string>
     <string name="delete_image">Delete Image</string>

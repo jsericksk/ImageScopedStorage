@@ -8,10 +8,7 @@ import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.toMutableStateList
+import androidx.compose.runtime.*
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.kproject.imagescopedstorage.presentation.model.Image
@@ -31,6 +28,9 @@ class SavedImagesViewModel(application: Application) : AndroidViewModel(applicat
     val viewState: State<ViewState> = _viewState
 
     var savedImagesList = mutableStateListOf<Image>()
+
+    var imageViewerState by mutableStateOf(ImageViewerUiState())
+        private set
 
     fun getSavedImages() {
         _viewState.value = ViewState.Loading
@@ -120,8 +120,9 @@ class SavedImagesViewModel(application: Application) : AndroidViewModel(applicat
 
     fun removeImageFromList(index: Int) {
         savedImagesList.removeAt(index)
-        if (savedImagesList.isEmpty()) {
-            _viewState.value = ViewState.Empty
-        }
+    }
+
+    fun onCurrentPageChange(currentPage: Int) {
+        imageViewerState = imageViewerState.copy(currentPage = currentPage)
     }
 }

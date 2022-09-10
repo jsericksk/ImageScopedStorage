@@ -32,7 +32,7 @@ fun CustomImage(
         failure = {
             FailureIndicator()
         },
-        previewPlaceholder = R.drawable.ic_photo_library,
+        previewPlaceholder = R.drawable.ic_photo,
         modifier = modifier
     )
 }

@@ -24,16 +24,16 @@ class SavedImagesViewModel(application: Application) : AndroidViewModel(applicat
         application.applicationContext
     }
 
-    private val _viewState = mutableStateOf(ViewState.Loading)
-    val viewState: State<ViewState> = _viewState
-
+    var viewState by mutableStateOf(ViewState.Loading)
+        private set
+    
     var savedImagesList = mutableStateListOf<Image>()
 
     var imageViewerState by mutableStateOf(ImageViewerUiState())
         private set
 
     fun getSavedImages() {
-        _viewState.value = ViewState.Loading
+        viewState = ViewState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             val images = mutableListOf<Image>()
             try {
@@ -75,9 +75,9 @@ class SavedImagesViewModel(application: Application) : AndroidViewModel(applicat
 
                     savedImagesList = images.toMutableStateList()
                     if (savedImagesList.isNotEmpty()) {
-                        _viewState.value = ViewState.Success
+                        viewState = ViewState.Success
                     } else {
-                        _viewState.value = ViewState.Empty
+                        viewState = ViewState.Empty
                     }
                 }
             } catch (e: Exception) {
@@ -85,7 +85,7 @@ class SavedImagesViewModel(application: Application) : AndroidViewModel(applicat
                     TAG,
                     "Error getting images: ${e.message} ${e.stackTrace.joinToString()}"
                 )
-                _viewState.value = ViewState.Error
+                viewState = ViewState.Error
             }
         }
     }
@@ -101,7 +101,7 @@ class SavedImagesViewModel(application: Application) : AndroidViewModel(applicat
                 removeImageFromList(index)
             } catch (e: SecurityException) {
                 // This exception will only be thrown from Android 11
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)  {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     val intentSender = MediaStore.createDeleteRequest(
                         context.contentResolver,
                         listOf(imageUri)

@@ -7,20 +7,10 @@ data class ImageViewerUiState(
     val currentPage: Int = 0
 )
 
-val fakeImageList = listOf(
+val fakeImageList = (0..20).map { index ->
     Image(
-        id = 0,
+        id = index.toLong(),
         contentUri = Uri.EMPTY,
-        displayName = "Image 1"
-    ),
-    Image(
-        id = 1,
-        contentUri = Uri.EMPTY,
-        displayName = "Image 2"
-    ),
-    Image(
-        id = 3,
-        contentUri = Uri.EMPTY,
-        displayName = "Image 3"
+        displayName = "Image $index"
     )
-)
+}

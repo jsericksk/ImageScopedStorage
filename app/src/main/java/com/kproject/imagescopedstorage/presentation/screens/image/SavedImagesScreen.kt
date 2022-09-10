@@ -1,8 +1,5 @@
 package com.kproject.imagescopedstorage.presentation.screens.image
 
-import android.app.Activity
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -13,21 +10,53 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kproject.imagescopedstorage.R
 import com.kproject.imagescopedstorage.presentation.model.Image
 import com.kproject.imagescopedstorage.presentation.screens.components.CustomImage
 import com.kproject.imagescopedstorage.presentation.screens.components.EmptyListInfo
 import com.kproject.imagescopedstorage.presentation.screens.components.ProgressIndicator
 import com.kproject.imagescopedstorage.presentation.screens.components.TopBar
+import com.kproject.imagescopedstorage.presentation.theme.ImageScopedStorageTheme
 import com.kproject.imagescopedstorage.presentation.utils.ViewState
 
 @Composable
 fun SavedImagesScreen(
-    savedImagesViewModel: SavedImagesViewModel = viewModel(),
+    savedImagesViewModel: SavedImagesViewModel,
+    onNavigateToImageViewerScreen: (imagePositionInTheList: Int) -> Unit,
+    onNavigateBack: () -> Unit
+) {
+    val viewState = savedImagesViewModel.viewState
+    val imageList = savedImagesViewModel.savedImagesList
+
+    /**
+     * Get the images the first time only. Only LaunchedEffect() or ViewModel's init{} is
+     * not enough in this case.
+     */
+    var imagesObtained by rememberSaveable { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        if (!imagesObtained) {
+            savedImagesViewModel.getSavedImages()
+            imagesObtained = true
+        }
+    }
+
+    SavedImagesScreenContent(
+        viewState = savedImagesViewModel.viewState,
+        imageList = imageList,
+        onNavigateToImageViewerScreen = { imagePositionInTheList ->
+            onNavigateToImageViewerScreen.invoke(imagePositionInTheList)
+        },
+        onNavigateBack = onNavigateBack
+    )
+}
+
+@Composable
+fun SavedImagesScreenContent(
+    viewState: ViewState,
+    imageList: List<Image>,
     onNavigateToImageViewerScreen: (imagePositionInTheList: Int) -> Unit,
     onNavigateBack: () -> Unit
 ) {
@@ -44,44 +73,30 @@ fun SavedImagesScreen(
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Content(
-                    savedImagesViewModel = savedImagesViewModel,
-                    onNavigateToImageViewerScreen = { imagePositionInTheList ->
-                        onNavigateToImageViewerScreen.invoke(imagePositionInTheList)
-                    }
-                )
-            }
+            Content(
+                viewState = viewState,
+                imageList = imageList,
+                onNavigateToImageViewerScreen = { imagePositionInTheList ->
+                    onNavigateToImageViewerScreen.invoke(imagePositionInTheList)
+                }
+            )
         }
     }
 }
 
 @Composable
 private fun Content(
-    savedImagesViewModel: SavedImagesViewModel,
+    viewState: ViewState,
+    imageList: List<Image>,
     onNavigateToImageViewerScreen: (imagePositionInTheList: Int) -> Unit
 ) {
-    val viewState by savedImagesViewModel.viewState
-
-    /**
-     * Avoid getting the images in some cases where LaunchedEffect
-     * and init{} from ViewModel are not enough.
-     */
-    var imagesObtained by rememberSaveable { mutableStateOf(false) }
-    LaunchedEffect(Unit) {
-        if (!imagesObtained) {
-            savedImagesViewModel.getSavedImages()
-            imagesObtained = true
-        }
-    }
-
     when (viewState) {
         ViewState.Loading -> {
             ProgressIndicator()
         }
         ViewState.Success -> {
             SavedImagesList(
-                imageList = savedImagesViewModel.savedImagesList,
+                imageList = imageList,
                 onNavigateToImageViewerScreen = { imagePositionInTheList ->
                     onNavigateToImageViewerScreen.invoke(imagePositionInTheList)
                 }
@@ -147,6 +162,19 @@ private fun SavedImageListItem(
         CustomImage(
             imageModel = image.contentUri,
             modifier = Modifier.aspectRatio(1f)
+        )
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun Preview() {
+    ImageScopedStorageTheme {
+        SavedImagesScreenContent(
+            viewState = ViewState.Success,
+            imageList = fakeImageList,
+            onNavigateToImageViewerScreen = { },
+            onNavigateBack =  { }
         )
     }
 }

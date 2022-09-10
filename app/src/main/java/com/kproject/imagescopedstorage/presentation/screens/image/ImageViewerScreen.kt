@@ -237,7 +237,7 @@ private fun Preview() {
             imageList = fakeImageList,
             onDeleteImage = { },
             onNavigateBack = { },
-            onCurrentPageChange = { _ -> },
+            onCurrentPageChange = { },
         )
     }
 }

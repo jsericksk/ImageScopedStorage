@@ -6,7 +6,6 @@ data class WebsiteOption(
     val name: String,
     val url: String
 ) {
-
     fun generateRandomUrl(): String = "$url?${UUID.randomUUID()}"
 }
 

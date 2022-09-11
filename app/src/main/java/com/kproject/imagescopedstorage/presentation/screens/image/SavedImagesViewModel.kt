@@ -26,7 +26,7 @@ class SavedImagesViewModel(application: Application) : AndroidViewModel(applicat
 
     var viewState by mutableStateOf(ViewState.Loading)
         private set
-    
+
     var savedImagesList = mutableStateListOf<Image>()
 
     var imageViewerState by mutableStateOf(ImageViewerUiState())
@@ -120,6 +120,9 @@ class SavedImagesViewModel(application: Application) : AndroidViewModel(applicat
 
     fun removeImageFromList(index: Int) {
         savedImagesList.removeAt(index)
+        if (savedImagesList.isEmpty()) {
+            viewState = ViewState.Empty
+        }
     }
 
     fun onCurrentPageChange(currentPage: Int) {

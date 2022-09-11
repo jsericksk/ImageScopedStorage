@@ -38,8 +38,8 @@ import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun HomeScreen(
+    homeViewModel: HomeViewModel = viewModel(),
     onNavigateToSavedImagesScreen: () -> Unit,
-    homeViewModel: HomeViewModel = viewModel()
 ) {
     val context = LocalContext.current
 
@@ -61,9 +61,7 @@ fun HomeScreen(
                         }
                     )
                 },
-                onNavigateToSavedImagesScreen = {
-                    onNavigateToSavedImagesScreen.invoke()
-                }
+                onNavigateToSavedImagesScreen = onNavigateToSavedImagesScreen
             )
         }
     )

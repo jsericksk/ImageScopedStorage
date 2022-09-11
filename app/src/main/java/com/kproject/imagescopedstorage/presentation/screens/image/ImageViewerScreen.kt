@@ -120,16 +120,16 @@ private fun SavedImageList(
     val pagerState = rememberPagerState(initialPage = initialPosition)
     var currentPage by rememberSaveable { mutableStateOf(initialPosition) }
 
-    LaunchedEffect(key1 = currentPage, key2 = imageList.size) {
+    LaunchedEffect(imageList.size) {
         if (imageList.isEmpty()) {
             onNavigateBack.invoke()
         }
+    }
 
+    LaunchedEffect(currentPage) {
         onCurrentPageChange.invoke(currentPage)
-
         if (imageList.isNotEmpty()) {
-            val indexOfImage = currentPage
-            val title = imageList[indexOfImage].displayName.replace(".png", "")
+            val title = imageList[currentPage].displayName.replace(".png", "")
             onTopBarTitleChange.invoke(title)
         }
     }

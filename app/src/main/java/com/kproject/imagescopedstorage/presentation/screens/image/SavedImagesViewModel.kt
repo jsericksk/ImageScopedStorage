@@ -52,7 +52,7 @@ class SavedImagesViewModel(application: Application) : AndroidViewModel(applicat
                     "${MediaStore.MediaColumns.DATA} LIKE ?"
                 }
                 val selectionArgs = arrayOf("%${Utils.APP_FOLDER}%")
-                val order = "${MediaStore.Images.ImageColumns.DATE_MODIFIED} ASC"
+                val order = "${MediaStore.Images.ImageColumns.DATE_MODIFIED} DESC"
                 context.contentResolver.query(
                     collection,
                     projection,
@@ -74,10 +74,10 @@ class SavedImagesViewModel(application: Application) : AndroidViewModel(applicat
                     }
 
                     savedImagesList = images.toMutableStateList()
-                    if (savedImagesList.isNotEmpty()) {
-                        viewState = ViewState.Success
+                    viewState = if (savedImagesList.isNotEmpty()) {
+                        ViewState.Success
                     } else {
-                        viewState = ViewState.Empty
+                        ViewState.Empty
                     }
                 }
             } catch (e: Exception) {

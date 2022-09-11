@@ -8,7 +8,7 @@ private val DarkColorPalette = darkColors(
     primary = PrimaryDark,
     secondary = SecondaryDark,
     onSecondary = OnSecondaryDark,
-    background = BackgroundDark
+    background = BackgroundDark,
 )
 
 @Composable

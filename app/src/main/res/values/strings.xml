@@ -9,13 +9,14 @@
     <string name="saved_images">Saved Images</string>
 
     <!-- HomeScreen -->
-    <string name="image_saved_successfully">Image saved successfully!</string>
-    <string name="dialog_grant_storage_permission">To save and view images on your device, the app
+    <string name="request_permissions">Request Permissions</string>
+    <string name="grant_storage_permission">To save and view images on your device, the app
         must have access to storage. Please grant permission for the app to work properly.</string>
-    <string name="dialog_storage_permission_denied">Permission Denied</string>
-    <string name="dialog_permissions_permanently_denied">Since you have permanently denied storage
-        permission, you cannot perform this action. The app needs the permission to function properly.
-        Please go to the app settings on your device and grant the permission.</string>
+    <string name="storage_permission_denied">Permission Denied</string>
+    <string name="permissions_permanently_denied">Since you have permanently denied storage
+        permission, you do not have access to the app content. The app needs the permission to
+        function properly. Please go to the app settings on your device and grant the permission.</string>
+    <string name="image_saved_successfully">Image saved successfully!</string>
 
     <!-- SavedImagesScreen and ImageViewerScreen -->
     <string name="empty_image_list">The image list is empty. Saved images will appear here.</string>

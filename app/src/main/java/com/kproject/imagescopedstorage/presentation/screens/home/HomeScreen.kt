@@ -21,52 +21,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.MultiplePermissionsState
-import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.kproject.imagescopedstorage.R
-import com.kproject.imagescopedstorage.presentation.screens.components.AlertDialog
 import com.kproject.imagescopedstorage.presentation.screens.components.CustomImage
 import com.kproject.imagescopedstorage.presentation.screens.components.FailureIndicator
+import com.kproject.imagescopedstorage.presentation.screens.home.components.PermissionsState
 import com.kproject.imagescopedstorage.presentation.theme.ImageScopedStorageTheme
-import com.kproject.imagescopedstorage.presentation.utils.Utils
 import com.skydoves.landscapist.coil.CoilImage
 import kotlin.random.Random
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun HomeScreen(
     onNavigateToSavedImagesScreen: () -> Unit,
     homeViewModel: HomeViewModel = viewModel()
 ) {
-    val multiplePermissionState = rememberMultiplePermissionsState(Utils.permissionList())
+    PermissionsState(
+        content = {
+            HomeScreenContent(
+                onSaveImage = { bitmap ->
 
-    var isPermissionRequested by rememberSaveable { mutableStateOf(false) }
-    var showDialogRequestPermission by remember { mutableStateOf(false) }
-    var showDialogPermissionPermanentlyDenied by remember { mutableStateOf(false) }
-
-    HomeScreenContent(
-        onSaveImage = { bitmap ->
-
-        },
-        onNavigateToSavedImagesScreen = onNavigateToSavedImagesScreen
-    )
-
-    AlertDialog(
-        showDialog = showDialogRequestPermission,
-        onDismiss = { showDialogRequestPermission = false },
-        title = stringResource(id = R.string.dialog_storage_permission_denied),
-        message = stringResource(id = R.string.dialog_grant_storage_permission),
-        onClickButtonOk = { multiplePermissionState.launchMultiplePermissionRequest() },
-    )
-
-    AlertDialog(
-        showDialog = showDialogPermissionPermanentlyDenied,
-        onDismiss = { showDialogPermissionPermanentlyDenied = false },
-        title = stringResource(id = R.string.dialog_storage_permission_denied),
-        message = stringResource(id = R.string.dialog_permissions_permanently_denied),
-        showButtonCancel = false,
-        onClickButtonOk = { showDialogPermissionPermanentlyDenied = false }
+                },
+                onNavigateToSavedImagesScreen = {
+                    onNavigateToSavedImagesScreen.invoke()
+                }
+            )
+        }
     )
 }
 
@@ -175,31 +153,6 @@ fun CustomButton(
             tint = Color.White,
             modifier = Modifier.size(36.dp)
         )
-    }
-}
-
-@OptIn(ExperimentalPermissionsApi::class)
-private fun checkPermissionState(
-    permissionsState: MultiplePermissionsState,
-    isPermissionRequested: Boolean,
-    hasPermission: () -> Unit,
-    shouldShowRationale: () -> Unit,
-    permissionPermanentlyDenied: () -> Unit,
-) {
-    if (permissionsState.allPermissionsGranted) {
-        hasPermission.invoke()
-    } else {
-        when {
-            !permissionsState.shouldShowRationale && !isPermissionRequested -> {
-                permissionsState.launchMultiplePermissionRequest()
-            }
-            permissionsState.shouldShowRationale -> {
-                shouldShowRationale.invoke()
-            }
-            else -> {
-                permissionPermanentlyDenied.invoke()
-            }
-        }
     }
 }
 

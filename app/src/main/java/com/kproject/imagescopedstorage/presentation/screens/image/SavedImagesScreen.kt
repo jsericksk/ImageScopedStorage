@@ -28,7 +28,6 @@ fun SavedImagesScreen(
     onNavigateToImageViewerScreen: (imagePositionInTheList: Int) -> Unit,
     onNavigateBack: () -> Unit
 ) {
-
     /**
      * Get the images the first time only. Only LaunchedEffect() or ViewModel's init{} is
      * not enough in this case.

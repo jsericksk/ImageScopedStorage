@@ -17,6 +17,7 @@
         permission, you do not have access to the app content. The app needs the permission to
         function properly. Please go to the app settings on your device and grant the permission.</string>
     <string name="image_saved_successfully">Image saved successfully!</string>
+    <string name="error_saving_image">There was an error trying to save the image.</string>
 
     <!-- SavedImagesScreen and ImageViewerScreen -->
     <string name="empty_image_list">The image list is empty. Saved images will appear here.</string>

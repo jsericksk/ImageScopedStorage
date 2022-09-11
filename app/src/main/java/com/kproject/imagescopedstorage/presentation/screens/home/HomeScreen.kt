@@ -1,6 +1,7 @@
 package com.kproject.imagescopedstorage.presentation.screens.home
 
 import android.graphics.Bitmap
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,6 +28,7 @@ import com.kproject.imagescopedstorage.presentation.screens.components.CustomIma
 import com.kproject.imagescopedstorage.presentation.screens.components.FailureIndicator
 import com.kproject.imagescopedstorage.presentation.screens.home.components.PermissionsState
 import com.kproject.imagescopedstorage.presentation.theme.ImageScopedStorageTheme
+import com.kproject.imagescopedstorage.presentation.utils.Utils
 import com.skydoves.landscapist.coil.CoilImage
 import kotlin.random.Random
 
@@ -34,11 +37,25 @@ fun HomeScreen(
     onNavigateToSavedImagesScreen: () -> Unit,
     homeViewModel: HomeViewModel = viewModel()
 ) {
+    val context = LocalContext.current
+
     PermissionsState(
         content = {
             HomeScreenContent(
                 onSaveImage = { bitmap ->
-
+                    homeViewModel.saveImage(
+                        bitmap = bitmap,
+                        onSuccess = {
+                            Utils.showToast(context, context.getString(R.string.image_saved_successfully))
+                        },
+                        onError = {
+                            Utils.showToast(
+                                context,
+                                context.getString(R.string.error_saving_image),
+                                Toast.LENGTH_LONG
+                            )
+                        }
+                    )
                 },
                 onNavigateToSavedImagesScreen = {
                     onNavigateToSavedImagesScreen.invoke()

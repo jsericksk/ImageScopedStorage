@@ -47,7 +47,7 @@ private fun shimmerParams() = ShimmerParams(
 )
 
 @Composable
-private fun BoxScope.FailureIndicator() {
+fun BoxScope.FailureIndicator() {
     Box(
         modifier = Modifier
             .matchParentSize()

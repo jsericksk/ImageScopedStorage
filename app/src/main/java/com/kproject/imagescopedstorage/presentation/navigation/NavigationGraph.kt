@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.kproject.imagescopedstorage.presentation.screens.home.HomeScreen
 import com.kproject.imagescopedstorage.presentation.screens.image.ImageViewerScreen
 import com.kproject.imagescopedstorage.presentation.screens.image.SavedImagesScreen
 import com.kproject.imagescopedstorage.presentation.screens.image.SavedImagesViewModel
@@ -22,7 +23,15 @@ fun NavigationGraph() {
     val navController = rememberAnimatedNavController()
     val savedImagesViewModel: SavedImagesViewModel = viewModel()
 
-    AnimatedNavHost(navController = navController, startDestination = Screen.SavedImagesScreen.route) {
+    AnimatedNavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
+        composable(route = Screen.HomeScreen.route) {
+            HomeScreen(
+                onNavigateToSavedImagesScreen = {
+                    navController.navigate(Screen.SavedImagesScreen.route)
+                }
+            )
+        }
+
         /**
          * SavedImagesScreen
          */

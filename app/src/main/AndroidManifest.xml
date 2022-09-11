@@ -12,6 +12,7 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="29"
         tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- requestLegacyExternalStorage will be ignored as of Android 11, however it is required for
     Android 10 not to throw a SecurityException due to scoped storage -->

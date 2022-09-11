@@ -28,8 +28,6 @@ fun SavedImagesScreen(
     onNavigateToImageViewerScreen: (imagePositionInTheList: Int) -> Unit,
     onNavigateBack: () -> Unit
 ) {
-    val viewState = savedImagesViewModel.viewState
-    val imageList = savedImagesViewModel.savedImagesList
 
     /**
      * Get the images the first time only. Only LaunchedEffect() or ViewModel's init{} is
@@ -45,7 +43,7 @@ fun SavedImagesScreen(
 
     SavedImagesScreenContent(
         viewState = savedImagesViewModel.viewState,
-        imageList = imageList,
+        imageList = savedImagesViewModel.savedImagesList,
         onNavigateToImageViewerScreen = { imagePositionInTheList ->
             onNavigateToImageViewerScreen.invoke(imagePositionInTheList)
         },
@@ -54,7 +52,7 @@ fun SavedImagesScreen(
 }
 
 @Composable
-fun SavedImagesScreenContent(
+private fun SavedImagesScreenContent(
     viewState: ViewState,
     imageList: List<Image>,
     onNavigateToImageViewerScreen: (imagePositionInTheList: Int) -> Unit,

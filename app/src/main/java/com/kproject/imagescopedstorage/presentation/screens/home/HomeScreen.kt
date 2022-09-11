@@ -4,9 +4,12 @@ import android.graphics.Bitmap
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -27,10 +30,11 @@ import com.kproject.imagescopedstorage.R
 import com.kproject.imagescopedstorage.presentation.screens.components.CustomImage
 import com.kproject.imagescopedstorage.presentation.screens.components.FailureIndicator
 import com.kproject.imagescopedstorage.presentation.screens.home.components.PermissionsState
+import com.kproject.imagescopedstorage.presentation.screens.home.model.WebsiteOption
+import com.kproject.imagescopedstorage.presentation.screens.home.model.websiteOptions
 import com.kproject.imagescopedstorage.presentation.theme.ImageScopedStorageTheme
 import com.kproject.imagescopedstorage.presentation.utils.Utils
 import com.skydoves.landscapist.coil.CoilImage
-import kotlin.random.Random
 
 @Composable
 fun HomeScreen(
@@ -65,8 +69,6 @@ fun HomeScreen(
     )
 }
 
-private const val Url = "https://thiscatdoesnotexist.com"
-
 @Composable
 private fun HomeScreenContent(
     modifier: Modifier = Modifier,
@@ -74,12 +76,15 @@ private fun HomeScreenContent(
     onNavigateToSavedImagesScreen: () -> Unit
 ) {
     var imageBitmap by remember { mutableStateOf<Bitmap?>(null) }
-    var imageUrl by rememberSaveable { mutableStateOf(Url) }
+    var imageUrl by rememberSaveable { mutableStateOf(websiteOptions[0].url) }
+    var selectedWebsiteOption by rememberSaveable { mutableStateOf(0) }
 
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
     ) {
         CoilImage(
             imageModel = imageUrl,
@@ -108,11 +113,21 @@ private fun HomeScreenContent(
 
         Spacer(Modifier.height(22.dp))
 
+        WebsiteOptions(
+            selectedOption = selectedWebsiteOption,
+            onOptionSelected = { option ->
+                selectedWebsiteOption = option
+                imageUrl =  websiteOptions[selectedWebsiteOption].generateRandomUrl()
+            }
+        )
+
+        Spacer(Modifier.height(22.dp))
+
         Row {
             CustomButton(
                 icon = R.drawable.ic_refresh,
                 onClick = {
-                    imageUrl = "$Url/?${Random.nextInt()}"
+                    imageUrl =  websiteOptions[selectedWebsiteOption].generateRandomUrl()
                 }
             )
             Spacer(Modifier.width(24.dp))
@@ -152,7 +167,82 @@ private fun HomeScreenContent(
 }
 
 @Composable
-fun CustomButton(
+private fun WebsiteOptions(
+    modifier: Modifier = Modifier,
+    selectedOption: Int,
+    onOptionSelected: (Int) -> Unit,
+) {
+    var showOptions by rememberSaveable { mutableStateOf(false) }
+    val dropdownIcon = if (showOptions) {
+        ImageVector.vectorResource(id = R.drawable.ic_arrow_drop_up)
+    } else {
+        ImageVector.vectorResource(id = R.drawable.ic_arrow_drop_down)
+    }
+
+    Box {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .clickable { showOptions = true }
+                .background(
+                    color = MaterialTheme.colors.secondary,
+                    shape = RoundedCornerShape(12.dp)
+                )
+                .padding(8.dp)
+        ) {
+            Text(
+                text = websiteOptions[selectedOption].name,
+                color = Color.White,
+                fontSize = 16.sp
+            )
+            Spacer(Modifier.width(8.dp))
+            Icon(
+                imageVector = dropdownIcon,
+                contentDescription = null,
+                tint = Color.White
+            )
+        }
+
+        CustomSpinner(
+            showOptions = showOptions,
+            onDismiss = { showOptions = false },
+            options = websiteOptions,
+            onOptionSelected = { option ->
+                onOptionSelected.invoke(option)
+            }
+        )
+    }
+}
+
+@Composable
+private fun CustomSpinner(
+    modifier: Modifier = Modifier,
+    showOptions: Boolean,
+    onDismiss: () -> Unit,
+    options: List<WebsiteOption>,
+    onOptionSelected: (Int) -> Unit,
+) {
+    DropdownMenu(
+        expanded = showOptions,
+        onDismissRequest = onDismiss,
+        modifier = modifier
+    ) {
+        options.forEachIndexed { index, websiteOptions ->
+            DropdownMenuItem(
+                onClick = {
+                    onDismiss.invoke()
+                    onOptionSelected.invoke(index)
+                },
+                contentPadding = PaddingValues(8.dp)
+            ) {
+                Text(text = websiteOptions.name)
+            }
+        }
+    }
+}
+
+@Composable
+private fun CustomButton(
     modifier: Modifier = Modifier,
     @DrawableRes icon: Int,
     onClick: () -> Unit

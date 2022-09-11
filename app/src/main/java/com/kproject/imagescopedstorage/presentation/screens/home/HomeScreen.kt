@@ -115,7 +115,8 @@ private fun HomeScreenContent(
             selectedOption = selectedWebsiteOption,
             onOptionSelected = { option ->
                 selectedWebsiteOption = option
-                imageUrl =  websiteOptions[selectedWebsiteOption].generateRandomUrl()
+                imageUrl = websiteOptions[selectedWebsiteOption].generateRandomUrl()
+                imageBitmap = null
             }
         )
 
@@ -125,7 +126,8 @@ private fun HomeScreenContent(
             CustomButton(
                 icon = R.drawable.ic_refresh,
                 onClick = {
-                    imageUrl =  websiteOptions[selectedWebsiteOption].generateRandomUrl()
+                    imageUrl = websiteOptions[selectedWebsiteOption].generateRandomUrl()
+                    imageBitmap = null
                 }
             )
             Spacer(Modifier.width(24.dp))

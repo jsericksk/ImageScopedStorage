@@ -63,10 +63,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                      * Scans the file so it can appear in the gallery right after insertion.
                      * This is useful for some phones that don't automatically scan the gallery.
                      */
-                    imageFile?.let {
+                    imageFile?.let { file ->
                         MediaScannerConnection.scanFile(
                             context,
-                            arrayOf(it.toString()),
+                            arrayOf(file.toString()),
                             null
                         ) { path, uri -> }
                     }

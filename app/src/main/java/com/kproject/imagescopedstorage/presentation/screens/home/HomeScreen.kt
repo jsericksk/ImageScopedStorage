@@ -130,7 +130,7 @@ private fun HomeScreenContent(
         Spacer(Modifier.height(22.dp))
 
         Row {
-            CustomButton(
+            CustomIconButton(
                 icon = R.drawable.ic_refresh,
                 onClick = {
                     imageUrl = websiteOptions[selectedWebsiteOption].generateRandomUrl()
@@ -138,7 +138,7 @@ private fun HomeScreenContent(
                 }
             )
             Spacer(Modifier.width(24.dp))
-            CustomButton(
+            CustomIconButton(
                 icon = R.drawable.ic_save,
                 onClick = {
                     imageBitmap?.let { bitmap ->
@@ -189,7 +189,7 @@ private fun WebsiteOptions(
     Box {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
+            modifier = modifier
                 .clickable { showDropdownMenu = true }
                 .background(
                     color = MaterialTheme.colors.secondary,
@@ -264,7 +264,7 @@ private fun CustomDropdownMenu(
 }
 
 @Composable
-private fun CustomButton(
+private fun CustomIconButton(
     modifier: Modifier = Modifier,
     @DrawableRes icon: Int,
     onClick: () -> Unit

@@ -121,8 +121,7 @@ private fun SavedImagesList(
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            modifier = Modifier.weight(1f)
+            columns = GridCells.Fixed(3)
         ) {
             itemsIndexed(
                 items = imageList,
@@ -132,8 +131,7 @@ private fun SavedImagesList(
                     image = image,
                     onClick = {
                         onNavigateToImageViewerScreen.invoke(index)
-                    },
-                    modifier = Modifier
+                    }
                 )
             }
         }

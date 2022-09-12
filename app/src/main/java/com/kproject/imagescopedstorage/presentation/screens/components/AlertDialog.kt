@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kproject.imagescopedstorage.R
+import com.kproject.imagescopedstorage.presentation.theme.BackgroundColorPreview
 import com.kproject.imagescopedstorage.presentation.theme.ImageScopedStorageTheme
 import com.kproject.imagescopedstorage.presentation.theme.TextDefaultColor
 
@@ -117,7 +118,7 @@ private fun CustomAlertDialog(
     }
 }
 
-@Preview(showSystemUi = true)
+@Preview(showSystemUi = true, showBackground = true, backgroundColor = BackgroundColorPreview)
 @Composable
 private fun Preview() {
     ImageScopedStorageTheme {

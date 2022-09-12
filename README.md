@@ -1,3 +1,8 @@
+
+<p align="center">
+  <img src="screenshots/demo-app.gif" width="300" height="600" />
+</p>
+
 # Objective
 
 The project's main objective is to explore some of the [scoped storage](https://source.android.com/docs/core/storage/scoped) that was introduced in Android 10. It was originally done in **XML** and then recreated in **Jetpack Compose**. [MediaStore](https://developer.android.com/reference/android/provider/MediaStore) is used for most tasks with images. The operations are very similar with videos and audios.

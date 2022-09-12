@@ -30,6 +30,7 @@ import com.kproject.imagescopedstorage.presentation.screens.components.AlertDial
 import com.kproject.imagescopedstorage.presentation.screens.components.CustomImage
 import com.kproject.imagescopedstorage.presentation.screens.components.TopBar
 import com.kproject.imagescopedstorage.presentation.theme.ImageScopedStorageTheme
+import java.lang.IndexOutOfBoundsException
 
 @Composable
 fun ImageViewerScreen(
@@ -118,19 +119,19 @@ private fun SavedImageList(
     onCurrentPageChange: (Int) -> Unit,
 ) {
     val pagerState = rememberPagerState(initialPage = initialPosition)
-    var currentPage by rememberSaveable { mutableStateOf(initialPosition) }
 
-    LaunchedEffect(imageList.size) {
+    LaunchedEffect(key1 = imageList.size, key2 = pagerState.currentPage) {
         if (imageList.isEmpty()) {
             onNavigateBack.invoke()
         }
-    }
 
-    LaunchedEffect(currentPage) {
-        onCurrentPageChange.invoke(currentPage)
+        onCurrentPageChange.invoke(pagerState.currentPage)
+
         if (imageList.isNotEmpty()) {
-            val title = imageList[currentPage].displayName.replace(".png", "")
-            onTopBarTitleChange.invoke(title)
+            try {
+                val newTopBarTitle = imageList[pagerState.currentPage].displayName.replace(".png", "")
+                onTopBarTitleChange.invoke(newTopBarTitle)
+            } catch (e: IndexOutOfBoundsException) {}
         }
     }
 
@@ -154,7 +155,6 @@ private fun SavedImageList(
                 )
             }
         }
-        currentPage = pagerState.currentPage
 
         BottomBar(
             onDeleteImage = {

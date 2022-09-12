@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.kproject.imagescopedstorage.R
+import com.kproject.imagescopedstorage.presentation.theme.BackgroundColorPreview
 import com.kproject.imagescopedstorage.presentation.theme.ImageScopedStorageTheme
 import com.kproject.imagescopedstorage.presentation.theme.TextDefaultColor
 import com.kproject.imagescopedstorage.presentation.utils.Utils
@@ -120,7 +121,7 @@ private fun PermanentlyDeniedContent() {
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview(showSystemUi = true, showBackground = true, backgroundColor = BackgroundColorPreview)
 @Composable
 private fun RationaleContentPreview() {
     ImageScopedStorageTheme {
@@ -128,7 +129,7 @@ private fun RationaleContentPreview() {
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview(showSystemUi = true, showBackground = true, backgroundColor = BackgroundColorPreview)
 @Composable
 private fun PermanentlyDeniedContentPreview() {
     ImageScopedStorageTheme {

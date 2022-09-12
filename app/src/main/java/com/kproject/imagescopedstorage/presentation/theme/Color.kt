@@ -9,3 +9,5 @@ val OnSecondaryDark = Color(0xFFAF0101)
 val BackgroundDark = Color(0xFF1F1F1F)
 
 val TextDefaultColor = Color(0xFFCECECE)
+
+const val BackgroundColorPreview = 0xFF1F1F1F

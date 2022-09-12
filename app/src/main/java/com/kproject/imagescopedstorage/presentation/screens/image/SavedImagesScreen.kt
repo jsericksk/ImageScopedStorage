@@ -70,7 +70,7 @@ private fun SavedImagesScreenContent(
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            Content(
+            MainContent(
                 viewState = viewState,
                 imageList = imageList,
                 onNavigateToImageViewerScreen = { imagePositionInTheList ->
@@ -82,7 +82,7 @@ private fun SavedImagesScreenContent(
 }
 
 @Composable
-private fun Content(
+private fun MainContent(
     viewState: ViewState,
     imageList: List<Image>,
     onNavigateToImageViewerScreen: (imagePositionInTheList: Int) -> Unit

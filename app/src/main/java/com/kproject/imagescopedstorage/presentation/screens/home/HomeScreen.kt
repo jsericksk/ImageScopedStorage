@@ -37,6 +37,7 @@ import com.kproject.imagescopedstorage.presentation.screens.components.FailureIn
 import com.kproject.imagescopedstorage.presentation.screens.home.components.PermissionsState
 import com.kproject.imagescopedstorage.presentation.screens.home.model.WebsiteOption
 import com.kproject.imagescopedstorage.presentation.screens.home.model.websiteOptions
+import com.kproject.imagescopedstorage.presentation.theme.BackgroundColorPreview
 import com.kproject.imagescopedstorage.presentation.theme.ImageScopedStorageTheme
 import com.kproject.imagescopedstorage.presentation.utils.Utils
 import com.skydoves.landscapist.coil.CoilImage
@@ -87,7 +88,8 @@ private fun HomeScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState())
+            .padding(12.dp),
     ) {
         CoilImage(
             imageModel = imageUrl,
@@ -283,7 +285,7 @@ private fun CustomButton(
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview(showSystemUi = true, showBackground = true, backgroundColor = BackgroundColorPreview)
 @Composable
 private fun Preview() {
     ImageScopedStorageTheme {

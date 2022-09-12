@@ -11,15 +11,17 @@ data class WebsiteOption(
 
 internal val websiteOptions = listOf(
     WebsiteOption(
-        name = "This Person Does Not Exist",
+        name = title("Person"),
         url = "https://thispersondoesnotexist.com/image"
     ),
     WebsiteOption(
-        name = "This Cat Does Not Exist",
+        name = title("Cat"),
         url = "https://thiscatdoesnotexist.com"
     ),
     WebsiteOption(
-        name = "This Horse Does Not Exist",
+        name = title("Horse"),
         url = "https://thishorsedoesnotexist.com"
     )
 )
+
+private fun title(siteName: String) = "This <b>$siteName</b> Does Not Exist"

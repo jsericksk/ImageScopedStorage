@@ -21,6 +21,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -172,8 +177,8 @@ private fun WebsiteOptions(
     selectedOption: Int,
     onOptionSelected: (Int) -> Unit,
 ) {
-    var showOptions by rememberSaveable { mutableStateOf(false) }
-    val dropdownIcon = if (showOptions) {
+    var showDropdownMenu by rememberSaveable { mutableStateOf(false) }
+    val dropdownIcon = if (showDropdownMenu) {
         ImageVector.vectorResource(id = R.drawable.ic_arrow_drop_up)
     } else {
         ImageVector.vectorResource(id = R.drawable.ic_arrow_drop_down)
@@ -183,15 +188,18 @@ private fun WebsiteOptions(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .clickable { showOptions = true }
+                .clickable { showDropdownMenu = true }
                 .background(
                     color = MaterialTheme.colors.secondary,
                     shape = RoundedCornerShape(12.dp)
                 )
-                .padding(8.dp)
+                .padding(12.dp)
         ) {
             Text(
-                text = websiteOptions[selectedOption].name,
+                text = createBoldAnnotatedString(
+                    text = websiteOptions[selectedOption].name,
+                    color = Color(0xFFFFC400)
+                ),
                 color = Color.White,
                 fontSize = 16.sp
             )
@@ -203,9 +211,9 @@ private fun WebsiteOptions(
             )
         }
 
-        CustomSpinner(
-            showOptions = showOptions,
-            onDismiss = { showOptions = false },
+        CustomDropdownMenu(
+            showDropdownMenu = showDropdownMenu,
+            onDismiss = { showDropdownMenu = false },
             options = websiteOptions,
             onOptionSelected = { option ->
                 onOptionSelected.invoke(option)
@@ -215,15 +223,15 @@ private fun WebsiteOptions(
 }
 
 @Composable
-private fun CustomSpinner(
+private fun CustomDropdownMenu(
     modifier: Modifier = Modifier,
-    showOptions: Boolean,
+    showDropdownMenu: Boolean,
     onDismiss: () -> Unit,
     options: List<WebsiteOption>,
     onOptionSelected: (Int) -> Unit,
 ) {
     DropdownMenu(
-        expanded = showOptions,
+        expanded = showDropdownMenu,
         onDismissRequest = onDismiss,
         modifier = modifier
     ) {
@@ -233,9 +241,21 @@ private fun CustomSpinner(
                     onDismiss.invoke()
                     onOptionSelected.invoke(index)
                 },
-                contentPadding = PaddingValues(8.dp)
+                contentPadding = PaddingValues(8.dp),
+                modifier = Modifier
+                    .padding(4.dp)
+                    .background(
+                        color = MaterialTheme.colors.primary,
+                        shape = RoundedCornerShape(8.dp)
+                    )
             ) {
-                Text(text = websiteOptions.name)
+                Text(
+                    text = createBoldAnnotatedString(
+                        text = websiteOptions.name,
+                        color = Color(0xFFFFC400)
+                    ),
+                    color = Color.White
+                )
             }
         }
     }
@@ -271,5 +291,28 @@ private fun Preview() {
             onSaveImage = { },
             onNavigateToSavedImagesScreen = { }
         )
+    }
+}
+
+/**
+ * Creates an AnnotatedString that will highlight text between <b> and </b> in bold.
+ */
+private fun createBoldAnnotatedString(
+    text: String,
+    color: Color
+): AnnotatedString {
+    val parts = text.split("<b>", "</b>")
+    return buildAnnotatedString {
+        var bold = false
+        for (part in parts) {
+            if (bold) {
+                withStyle(style = SpanStyle(color = color, fontWeight = FontWeight.Bold)) {
+                    append(part)
+                }
+            } else {
+                append(part)
+            }
+            bold = !bold
+        }
     }
 }

@@ -148,7 +148,7 @@ private fun HomeScreenContent(
             )
         }
 
-        Spacer(Modifier.height(26.dp))
+        Spacer(Modifier.height(28.dp))
 
         Button(
             onClick = onNavigateToSavedImagesScreen,

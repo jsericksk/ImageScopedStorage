@@ -29,9 +29,6 @@ class SavedImagesViewModel(application: Application) : AndroidViewModel(applicat
 
     var savedImagesList = mutableStateListOf<Image>()
 
-    var imageViewerState by mutableStateOf(ImageViewerUiState())
-        private set
-
     fun getSavedImages() {
         viewState = ViewState.Loading
         viewModelScope.launch(Dispatchers.IO) {
@@ -123,9 +120,5 @@ class SavedImagesViewModel(application: Application) : AndroidViewModel(applicat
         if (savedImagesList.isEmpty()) {
             viewState = ViewState.Empty
         }
-    }
-
-    fun onCurrentPageChange(currentPage: Int) {
-        imageViewerState = imageViewerState.copy(currentPage = currentPage)
     }
 }

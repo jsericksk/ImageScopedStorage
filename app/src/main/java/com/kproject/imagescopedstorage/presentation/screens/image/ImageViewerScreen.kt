@@ -25,6 +25,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.kproject.imagescopedstorage.presentation.model.Image
+import com.kproject.imagescopedstorage.presentation.model.fakeImageList
 import com.kproject.imagescopedstorage.presentation.screens.components.AlertDialog
 import com.kproject.imagescopedstorage.presentation.screens.components.CustomImage
 import com.kproject.imagescopedstorage.presentation.screens.components.TopBar
@@ -37,7 +38,7 @@ fun ImageViewerScreen(
     onNavigateBack: () -> Unit
 ) {
     val imageList = savedImagesViewModel.savedImagesList
-    val imageViewerUiState = savedImagesViewModel.imageViewerState
+    var currentPage by rememberSaveable { mutableStateOf(imagePositionInTheList) }
 
     // Will only be used on Android 11+ if a SecurityException is thrown
     val deleteImageLauncher =
@@ -45,7 +46,7 @@ fun ImageViewerScreen(
                 contract = ActivityResultContracts.StartIntentSenderForResult()
             ) { activityResult->
                 if (activityResult.resultCode == RESULT_OK) {
-                    savedImagesViewModel.removeImageFromList(imageViewerUiState.currentPage)
+                    savedImagesViewModel.removeImageFromList(currentPage)
                 }
             }
 
@@ -54,14 +55,14 @@ fun ImageViewerScreen(
         imageList = imageList,
         onDeleteImage = {
             savedImagesViewModel.deleteImage(
-                imageUri = imageList[imageViewerUiState.currentPage].contentUri,
-                index = imageViewerUiState.currentPage,
+                imageUri = imageList[currentPage].contentUri,
+                index = currentPage,
                 intentSenderLauncher = deleteImageLauncher
             )
         },
         onNavigateBack = onNavigateBack,
-        onCurrentPageChange = { currentPage ->
-            savedImagesViewModel.onCurrentPageChange(currentPage)
+        onCurrentPageChange = { page ->
+            currentPage = page
         },
     )
 }
@@ -116,7 +117,6 @@ private fun SavedImageList(
     onTopBarTitleChange: (String) -> Unit,
     onCurrentPageChange: (Int) -> Unit,
 ) {
-    val context = LocalContext.current
     val pagerState = rememberPagerState(initialPage = initialPosition)
     var currentPage by rememberSaveable { mutableStateOf(initialPosition) }
 

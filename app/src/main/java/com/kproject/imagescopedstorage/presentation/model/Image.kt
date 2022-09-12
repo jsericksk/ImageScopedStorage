@@ -7,3 +7,11 @@ data class Image(
     val contentUri: Uri,
     val displayName: String
 )
+
+val fakeImageList = (0..20).map { index ->
+    Image(
+        id = index.toLong(),
+        contentUri = Uri.EMPTY,
+        displayName = "Image $index"
+    )
+}

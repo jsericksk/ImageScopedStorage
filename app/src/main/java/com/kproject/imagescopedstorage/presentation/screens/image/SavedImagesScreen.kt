@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kproject.imagescopedstorage.R
 import com.kproject.imagescopedstorage.presentation.model.Image
+import com.kproject.imagescopedstorage.presentation.model.fakeImageList
 import com.kproject.imagescopedstorage.presentation.screens.components.CustomImage
 import com.kproject.imagescopedstorage.presentation.screens.components.EmptyListInfo
 import com.kproject.imagescopedstorage.presentation.screens.components.ProgressIndicator

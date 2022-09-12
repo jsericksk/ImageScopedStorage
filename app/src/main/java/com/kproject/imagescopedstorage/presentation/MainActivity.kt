@@ -10,6 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.kproject.imagescopedstorage.presentation.navigation.NavigationGraph
 import com.kproject.imagescopedstorage.presentation.screens.home.HomeScreen
 import com.kproject.imagescopedstorage.presentation.screens.image.SavedImagesScreen
@@ -17,6 +18,7 @@ import com.kproject.imagescopedstorage.presentation.theme.ImageScopedStorageThem
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             ImageScopedStorageTheme {

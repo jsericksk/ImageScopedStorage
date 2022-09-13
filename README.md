@@ -13,6 +13,8 @@ A simple app was created that uses the functions of **save, get and delete** ima
 
 The websites [This Person Does Not Exist](https://thispersondoesnotexist.com), [This Cat Does Not Exist](https://thiscatdoesnotexist.com) and [This Horse Does Not Exist](https://thishorsedoesnotexist.com) are used as options to generate images.
 
+You can download the app by going to [releases](https://github.com/jsericksk/ImageScopedStorage/releases) if you want to test it on your device.
+
 ## Issues on Android 10
 
 Apparently, the first version of Android to receive this new feature didn't handle scoped storage very well. **When the file is not created by the app or when the user reinstalls or even deletes the app's data**, the Android system throws a security exception for the user to manually confirm the deletion of the file. There is a known [issue](https://github.com/jsericksk/ImageScopedStorage/issues/1) that only occurs on Android 10 where the file is not deleted when the user confirms the deletion or even after doing a second delete with methods like ```contentResolver.delete(uri, null, null)```.
